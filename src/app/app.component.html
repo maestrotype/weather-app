@@ -1,9 +1,14 @@
 <header>
-  <h1>Herolo wether task</h1>
-  <nav>
-    <button mat-raised-button>Home</button>
-    <button mat-raised-button>Favorites</button>
-  </nav>
+  <mat-toolbar class="header-toolbar">
+    <mat-toolbar-row>
+      <h1>Herolo wether task</h1>
+      <span class="example-fill-remaining-space"></span>
+      <nav>
+        <button mat-button>Home</button>
+        <button mat-button>Favorites</button>
+      </nav>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </header>
 <main>
   <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
