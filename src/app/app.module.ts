@@ -8,9 +8,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContentComponent } from './content/content.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
     MatSliderModule,
     MatButtonModule,
     MatGridListModule,
+    MatInputModule,
+    MatCardModule,
     MatToolbarModule
   ],
   providers: [],

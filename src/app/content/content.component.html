@@ -1,31 +1,29 @@
 <main>
-    <div class="search-location">
-        search
-    </div>
-    <div class="content">
-        <div class="top">
-            <mat-grid-list cols="2" rowHeight="2:1">
-                <mat-grid-tile>1</mat-grid-tile>
-                <mat-grid-tile>2</mat-grid-tile>
-                <mat-grid-tile>3</mat-grid-tile>
-                <mat-grid-tile>4</mat-grid-tile>
+    <mat-card-header class="search-location">
+        <mat-form-field>
+            <input matInput placeholder="Search">
+        </mat-form-field>
+    </mat-card-header>
+    <mat-card-content class="content">
+        <mat-card>
+            <mat-grid-list cols="2" rowHeight="4:1" class="top">
+                <mat-grid-tile class="location">
+                    location
+                </mat-grid-tile>
+                <mat-grid-tile class="add-location">
+                    add location
+                </mat-grid-tile>
             </mat-grid-list>
-            <div class="location">
-                location
-            </div>
-            <div class="add-location">
-                add location
-            </div>
-        </div>
-        <div class="title">
-            <h1>scattered cloud</h1>
-        </div>
-        <div class="days-weather">
-            <div class="day">day</div>
-            <div class="day">day</div>
-            <div class="day">day</div>
-            <div class="day">day</div>
-            <div class="day">day</div>
-        </div>
-    </div>
+            <mat-card-header class="title">
+                <h1>scattered cloud</h1>
+            </mat-card-header>
+            <mat-grid-list cols="5" rowHeight="2:1" class="days-weather">
+                <mat-grid-tile class="day">day</mat-grid-tile>
+                <mat-grid-tile class="day">day</mat-grid-tile>
+                <mat-grid-tile class="day">day</mat-grid-tile>
+                <mat-grid-tile class="day">day</mat-grid-tile>
+                <mat-grid-tile class="day">day</mat-grid-tile>
+            </mat-grid-list>
+        </mat-card>
+    </mat-card-content>
 </main>
