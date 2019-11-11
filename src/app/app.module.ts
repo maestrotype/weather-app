@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContentComponent } from './content/content.component';
 import { FavoritesComponent } from './favorites/favorites.component';
@@ -24,6 +25,7 @@ import { FavoritesComponent } from './favorites/favorites.component';
     BrowserAnimationsModule,
     MatSliderModule,
     MatButtonModule,
+    MatGridListModule,
     MatToolbarModule
   ],
   providers: [],
