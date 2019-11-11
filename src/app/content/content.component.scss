@@ -1,6 +1,10 @@
 mat-card-header {
     justify-content: center;
 }
+mat-button {
+    align-items: center;
+}
 mat-card {
     max-width: 70%;
+    margin: auto;
 }
