@@ -13,7 +13,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContentComponent } from './content/content.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { HttpClientModule} from "@angular/common/http";
 import { MatInputModule } from '@angular/material';
+import { WeatherService } from './weather.service';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,11 @@ import { MatInputModule } from '@angular/material';
     MatGridListModule,
     MatIconModule,
     MatInputModule,
+    HttpClientModule,
     MatCardModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [WeatherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
