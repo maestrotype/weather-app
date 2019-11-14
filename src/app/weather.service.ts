@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 export class WeatherService {
   
   apiKey='2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
-  static url = 'https://developer.github.com/v3/'
+  url = 'https://jsonplaceholder.typicode.com/todos/1';
+  res;
 
   constructor(private http: HttpClient) { 
     
@@ -17,9 +18,6 @@ export class WeatherService {
 
   getWeather(): Observable<any> {
     return this.http
-    .get(WeatherService.url)
-    .pipe(map((res)=>{
-      res;
-    }))
+    .get(this.url)
   }  
 }
