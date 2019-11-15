@@ -14,8 +14,8 @@ export class WeatherService {
   res;
   currentWeather = new BehaviorSubject<ILocation>({
     locationId: 0,
-    city: '--',
-    country: '--',
+    city: 'Tel Aviv',
+    country: 'Israel',
     date: Date.now(),
     image: '',
     temperature: 0
