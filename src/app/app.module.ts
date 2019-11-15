@@ -4,38 +4,31 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ContentComponent } from './content/content.component';
+import { CurrentWeatherComponent } from './current-weather/current-weather.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { HttpClientModule} from "@angular/common/http";
-import { MatInputModule } from '@angular/material';
 import { WeatherService } from './weather.service';
+import { CitySearchComponent } from './city-search/city-search.component';
+import { MaterialModule } from './material.module'
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    ContentComponent,
-    FavoritesComponent
+    CurrentWeatherComponent,
+    FavoritesComponent,
+    CitySearchComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
     HttpClientModule,
-    MatCardModule,
-    MatToolbarModule
+    AppRoutingModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [WeatherService],
   bootstrap: [AppComponent]

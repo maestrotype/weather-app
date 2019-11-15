@@ -1,5 +1,8 @@
 export interface ILocation {
-    locationId: number;
-    locationName: string;
-    locationWeather: string
+    locationId: number
+    city: string
+    country: string
+    date: number
+    image: string
+    temperature: number
 }
