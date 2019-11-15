@@ -6,29 +6,28 @@
         </mat-form-field> -->
     </mat-card-header>
     <mat-card-content class="content">
-        <mat-card>
+        <mat-card rowHeight="4:1">
             <mat-grid-list cols="2" rowHeight="4:1" class="top">
                 <mat-grid-tile class="location">
-                    <div *ngIf="current">
-                        <div fxLayout="row">
+                    <!-- <div *ngIf="current"> -->
+                    <!-- <div fxLayout="row">
                             <div fxFlex="20%">
                                 <img src="assets/images/weather.png" alt="images">
                             </div>
                             <div fxFlex="60%" class="mat-title no-margin">
                                 {{ current.city }}, {{ current.country }}
                             </div>
-                        </div>
-                        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: -48px;">
-                            <div fxFlex="55%">
-                                <img style="zoom: 175%; margin-bottom: 32px;" [src]="current.image" />
-                            </div>
-                            <div fxFlex class="right no-margin">
-                                <p class="mat-display-3">
-                                    {{ current.temperature | number: '1.0-0' }}
-                                    <span class="mat-display-1 unit">&#8451;</span>
-                                </p>
-                            </div>
-                        </div>
+                        </div> -->
+                    <div fxFlex="10%">
+                        <img src="assets/images/weather.png" alt="images">
+                        <!-- <img style="zoom: 175%; margin-bottom: 32px;" [src]="current.image" /> -->
+                    </div>
+                    <div fxFlex="90%" class="right no-margin">
+                        <p>{{ current.city }}, {{ current.country }}</p>
+                        <p class="mat-display-3">
+                            {{ current.temperature | number: '1.0-0' }}
+                            <span class="mat-display-1 unit">&#8451;</span>
+                        </p>
                     </div>
                 </mat-grid-tile>
                 <mat-grid-tile class="add-location">
@@ -40,7 +39,7 @@
             <mat-card-header class="title">
                 <h1>Scattered cloud</h1>
             </mat-card-header>
-            <mat-grid-list cols="5" rowHeight="2:1" class="days-weather">
+            <mat-grid-list cols="5" rowHeight="1:1" class="days-weather">
                 <mat-grid-tile class="day">
                     <mat-card>day</mat-card>
                 </mat-grid-tile>
