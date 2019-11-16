@@ -9,8 +9,10 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class WeatherService {
-  
+
   url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=49.949034%2C36.257655799999995';
+  latIsrael = '32.109333';
+  lonIsrael = '34.855499';
   res;
   currentWeather = new BehaviorSubject<ILocation>({
     locationId: 0,
@@ -21,8 +23,20 @@ export class WeatherService {
     temperature: 0
   })
 
-  constructor(private http: HttpClient) { 
-    
+  constructor(private http: HttpClient) {
+    //  this.http.get(`${environment.baseUrl}dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=` +
+    // `${this.latIsrael}%2C${this.lonIsrael}`).subscribe(data => (this.res = data));
+    this.http.get(this.url).subscribe(data => this.res)
+    console.log('constructor', this.res)
+  }
+
+  testWeather() {
+    this.http
+      .get(
+        this.url
+      )
+      .subscribe(data => (this.res = data));
+      console.log(this.res);  
   }
 
   getCurrentWeather(
@@ -41,13 +55,14 @@ export class WeatherService {
     }
 
     return this.getCurrentWeatherHelper(uriParams)
-  }  
+  }
 
   private getCurrentWeatherHelper(uriParams: string): Observable<ILocation> {
     return this.http
       .get<any>(
-        `${environment.baseUrl}api.openweathermap.org/data/2.5/weather?` +
-          `${uriParams}&appid=${environment.appId}`
+        this.url
+        // `${environment.baseUrl}api.openweathermap.org/data/2.5/weather?` +
+        //   `${uriParams}&appid=${environment.appId}`
       )
       .pipe(map(data => this.transformToICurrentWeather(data)))
   }
