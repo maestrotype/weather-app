@@ -19,8 +19,7 @@ export class CitySearchComponent implements OnInit {
         const userInput = searchValue.split(',').map(s => s.trim())
 
         this.weatherService.updateCurrentWeather(
-          userInput[0],
-          userInput.length > 1 ? userInput[1] : undefined
+          userInput[0]
         )
       }
     })

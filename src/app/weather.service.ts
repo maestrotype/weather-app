@@ -22,7 +22,7 @@ export class WeatherService {
   res;
   apiKey = '2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
   url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=';
-  urlCitySearch = 'http://dataservice.accuweather.com/locations/v1/cities/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=';
+  urlCitySearch = 'http://dataservice.accuweather.com/locations/v1/cities/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
   urlWeather = 'http://dataservice.accuweather.com/currentconditions/v1/' + this.locationKeyTay +'?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
   // url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=49.949034%2C36.257655799999995';
   
@@ -85,21 +85,10 @@ export class WeatherService {
   }
 
   getCurrentWeather(
-    search: string | number,
-    country?: string
+    search: string
   ): Observable<ILocation> {
     let uriParams = '';
-    uriParams = `${search}`
-    // if (typeof search === 'string') {
-    //   uriParams = `q=${search}`
-    // } else {
-    //   uriParams = `zip=${search}`
-    // }
-
-    // if (country) {
-    //   uriParams = `${uriParams},${country}`
-    // }
-
+    uriParams = `&q=${search}`;
     return this.getCurrentWeatherHelper(uriParams)
   }
 
@@ -119,19 +108,20 @@ export class WeatherService {
 
   private transformToICurrentWeather(data: any): ILocation {
     console.log('search', data);
+    this.res = data[0];
     return {
-      locationId: data.id,
-      city: data.name,
-      country: data.sys.country,
-      date: data.dt * 1000,
-      image: `${environment.baseUrl}openweathermap.org/img/w/${data.weather[0].icon}.png`,
-      temperature: data.main.temp,
+      locationId: 0,
+      city: this.res.AdministrativeArea.LocalizedName,
+      country: this.res.Country.LocalizedName,
+      date: Date.now(),
+      image: '',
+      temperature: this.temperature,
     }
   }
 
-  updateCurrentWeather(search: string | number, country?: string) {
+  updateCurrentWeather(search: string) {
     
-    this.getCurrentWeather(search, country).subscribe(weather =>
+    this.getCurrentWeather(search).subscribe(weather =>
       this.currentWeather.next(weather)
     )
   }
