@@ -26,17 +26,44 @@ export class WeatherService {
   constructor(private http: HttpClient) {
     //  this.http.get(`${environment.baseUrl}dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=` +
     // `${this.latIsrael}%2C${this.lonIsrael}`).subscribe(data => (this.res = data));
-    this.http.get(this.url).subscribe(data => this.res)
-    console.log('constructor', this.res)
+    this.http.get(this.url)
+      // .subscribe(data => this.res)
+      .pipe(map(
+        data => this.res = data));
+    // .map(singleUser => new User(singleUser))));
   }
 
   testWeather() {
-    this.http
-      .get(
+    // this.http
+    //   .get(
+    //     this.url
+    //   )
+    // .pipe(map(
+    //   data => this.res = data));
+    // .subscribe(data => (this.res = data));
+    this.testCurrentWeather().subscribe(weather =>
+      this.currentWeather.next(weather)
+    )
+    console.log('test', this.res);
+  }
+
+  testCurrentWeather() {
+    return this.http
+      .get<any>(
         this.url
       )
-      .subscribe(data => (this.res = data));
-      console.log(this.res);  
+      .pipe(map(data => this.transformTest(data)))
+  }
+  
+  private transformTest(data: any): ILocation {
+    return {
+      locationId: 0,
+      city: 'Kharkiv',
+      country: 'Israel',
+      date: Date.now(),
+      image: '',
+      temperature: 20,
+    }
   }
 
   getCurrentWeather(
