@@ -9,10 +9,15 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class WeatherService {
-
-  url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=49.949034%2C36.257655799999995';
+  apiKey = '2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
+  url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=';
+  urlWeather = 'http://dataservice.accuweather.com/currentconditions/v1/215805?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
+  // url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=49.949034%2C36.257655799999995';
+  latKharkov = '49.949034';
+  lonKharkov = '36.257655799999995';
   latIsrael = '32.109333';
   lonIsrael = '34.855499';
+  temperature = 0;
   res;
   currentWeather = new BehaviorSubject<ILocation>({
     locationId: 0,
@@ -20,16 +25,20 @@ export class WeatherService {
     country: 'Israel',
     date: Date.now(),
     image: '',
-    temperature: 0
+    temperature: this.temperature
   })
 
   constructor(private http: HttpClient) {
     //  this.http.get(`${environment.baseUrl}dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=` +
     // `${this.latIsrael}%2C${this.lonIsrael}`).subscribe(data => (this.res = data));
-    this.http.get(this.url)
-      // .subscribe(data => this.res)
-      .pipe(map(
-        data => this.res = data));
+    this.http.get(this.urlWeather)
+      .subscribe(data => {
+        console.log('urlWeather', data[0].Temperature.Metric.Value);
+        this.temperature = data[0].Temperature.Metric.Value
+      });
+       
+      // .pipe(map(
+      //   data => this.res = data));
     // .map(singleUser => new User(singleUser))));
   }
 
@@ -44,25 +53,28 @@ export class WeatherService {
     this.testCurrentWeather().subscribe(weather =>
       this.currentWeather.next(weather)
     )
-    console.log('test', this.res);
   }
 
   testCurrentWeather() {
+    console.log('test', this.res);
     return this.http
       .get<any>(
-        this.url
+        this.url + this.apiKey + '&q=' +
+        `${this.latIsrael}%2C${this.lonIsrael}`
       )
       .pipe(map(data => this.transformTest(data)))
   }
-  
+
   private transformTest(data: any): ILocation {
+    this.res = data;
+    console.log('test', this.res);
     return {
       locationId: 0,
-      city: 'Kharkiv',
-      country: 'Israel',
+      city: this.res.AdministrativeArea.LocalizedName,
+      country: this.res.Country.LocalizedName,
       date: Date.now(),
       image: '',
-      temperature: 20,
+      temperature: this.temperature,
     }
   }
 
