@@ -114,7 +114,7 @@ export class WeatherService {
   private transformToICurrentWeather(data: any): ILocation {
     console.log('search', data);
     this.res = data[0];
-    this.locationKey = this.res.ParentCity.Key;
+    this.locationKey = this.res.Key;
     this.getTemperature(this.locationKey);
     return {
       locationId: 0,
