@@ -11,12 +11,13 @@ export class CurrentWeatherComponent implements OnInit {
 
   current: ILocation;
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService) { 
+    // this.weatherService.testWeather();
+  }
 
   ngOnInit() {
     this.weatherService.currentWeather.subscribe(data => (this.current = data));
-    this.weatherService.testWeather();
-    console.log(this.current);
+    
   }
 
 }

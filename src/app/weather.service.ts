@@ -17,76 +17,34 @@ export class WeatherService {
   latIsrael = '32.109333';
   lonIsrael = '34.855499';
   latTay = '13.736717';
-  lonTay =  '100.523186';
-  temperature = 10;
+  lonTay = '100.523186';
+  // temperature = 10;
   res;
   apiKey = '2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
   url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=';
   urlCitySearch = 'http://dataservice.accuweather.com/locations/v1/cities/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
-  urlWeather = 'http://dataservice.accuweather.com/currentconditions/v1/' + this.locationKeyTay +'?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
-  // url = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=49.949034%2C36.257655799999995';
-  
+  urlWeather = 'http://dataservice.accuweather.com/currentconditions/v1/' + this.locationKeyTay + '?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG';
+
   currentWeather = new BehaviorSubject<ILocation>({
     locationId: 0,
     city: 'Tel Aviv',
     country: 'Israel',
     date: Date.now(),
     image: '',
-    temperature: this.temperature
+    temperature: 12
   })
 
   constructor(private http: HttpClient) {
-    //  this.http.get(`${environment.baseUrl}dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG&q=` +
-    // `${this.latIsrael}%2C${this.lonIsrael}`).subscribe(data => (this.res = data));
-    // this.http.get(this.urlWeather)
-    //   .subscribe(data => {
-    //     console.log('urlWeather', data[0]);
-    //     this.temperature = data[0].Temperature.Metric.Value
-    //   });
-       
-      // .pipe(map(
-      //   data => this.res = data));
-    // .map(singleUser => new User(singleUser))));
-  }
-
-  testWeather() {
-
-    this.getCurrentWeather('Tel Aviv').subscribe(weather =>
+    this.getCurrentWeather('Kiev').subscribe(weather =>
       this.currentWeather.next(weather)
     )
   }
 
-  // testCurrentWeather() {
-  //   return this.http
-  //     .get<any>(
-  //       this.url + this.apiKey + '&q=' +
-  //       `${this.latKharkov}%2C${this.lonKharkov}`
-  //     )
-  //     .pipe(map(data => this.transformTest(data)))
-  // }
-
-  
-  private getTemperature(locationKey: string) {
-    console.log('key', locationKey);
-    this.http
-      .get('http://dataservice.accuweather.com/currentconditions/v1/' + locationKey +'?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG')
-      .subscribe(data => {
-        console.log('urlWeather', data[0]);
-        this.temperature = data[0].Temperature.Metric.Value
-      });
-  }
-
-  private transformTest(data: any): ILocation {
-    this.res = data;
-    console.log('transformTest', this.res);
-    return {
-      locationId: 0,
-      city: this.res.AdministrativeArea.LocalizedName,
-      country: this.res.Country.LocalizedName,
-      date: Date.now(),
-      image: '',
-      temperature: this.temperature,
-    }
+  testWeather() {
+    console.log('1');
+    this.getCurrentWeather('Tel Aviv').subscribe(weather =>
+      this.currentWeather.next(weather)
+    )
   }
 
   getCurrentWeather(
@@ -97,39 +55,49 @@ export class WeatherService {
     return this.getCurrentWeatherHelper(uriParams)
   }
 
-  private getCurrentWeatherHelper(uriParams: string): Observable<ILocation> {
+  updateCurrentWeather(search: string) {  
+    this.getCurrentWeather(search).subscribe(weather =>
+      this.currentWeather.next(weather)
+    )
+  }
+
+  private getCurrentWeatherHelper(uriParams: string): Observable<any> {
     console.log('getCurrentWeatherHelper', uriParams);
     return this.http
       .get<any>(
         this.urlCitySearch + uriParams
-        // `${environment.baseUrl}api.openweathermap.org/data/2.5/weather?` +
-        //   `${uriParams}&appid=${environment.appId}`
       )
-      .pipe(map(data =>
-        this.transformToICurrentWeather(data)
-        ))
-        
+      .pipe(map(data => this.getTemperature(data)))     
   }
 
-  private transformToICurrentWeather(data: any): ILocation {
-    console.log('search', data);
-    this.res = data[0];
-    this.locationKey = this.res.Key;
-    this.getTemperature(this.locationKey);
+  private transformToICurrentWeather(data: any, t: any): ILocation {
+    console.log('transformToICurrentWeather', data);
+    this.res = data;
+    // this.locationKey = this.res.Key;
+    // this.getTemperature(this.locationKey);
     return {
       locationId: 0,
-      city: this.res.AdministrativeArea.LocalizedName,
+      city: this.res.LocalizedName,
       country: this.res.Country.LocalizedName,
       date: Date.now(),
       image: '',
-      temperature: this.temperature,
+      temperature: t,
     }
   }
+  private getLocation() {
 
-  updateCurrentWeather(search: string) {
-    
-    this.getCurrentWeather(search).subscribe(weather =>
-      this.currentWeather.next(weather)
-    )
+  }
+  private getTemperature(data) {
+    this.res = data[0];
+    this.locationKey = this.res.ParentCity.Key;
+    console.log('key', this.locationKey);
+    let t;
+    this.http
+      .get('http://dataservice.accuweather.com/currentconditions/v1/' + this.locationKey +'?apikey=2wjh8FbS9yAwHBXpy9g9aGfItsTVKAYG')
+      .subscribe(data => {
+        console.log('t', data[0].Temperature.Metric.Value);
+        t = data[0].Temperature.Metric.Value;
+        this.transformToICurrentWeather(this.res, t)
+      });
   }
 }
